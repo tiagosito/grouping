@@ -45,46 +45,49 @@ class _GroupState extends State<Group> {
             height: 8,
           ),
           Container(
-            child: Grouping(
-              label: Text('Category'.toUpperCase(), style: TextStyle(color: Theme.of(context).primaryColor)),
-              iconAdd: Icon(
-                Icons.add,
-                size: 12,
-                color: Theme.of(context).primaryColor,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Grouping(
+                label: Text('Category'.toUpperCase(), style: TextStyle(color: Theme.of(context).primaryColor)),
+                iconAdd: Icon(
+                  Icons.add,
+                  size: 12,
+                  color: Theme.of(context).primaryColor,
+                ),
+                labelAdd: Text('Add new category', style: TextStyle(color: Theme.of(context).primaryColor)),
+                height: 350,
+                //background: Colors.red,
+                items: _listItemsGroup,
+                onTap: (item) async {
+                  print('Click do Item ${item.toString()}');
+
+                  return item;
+                },
+                onRemove: <ModelExample>(item) async {
+                  //Simulating a call to the server
+                  var requestHTTP = await Future.delayed(Duration(seconds: 3));
+
+                  Future<bool> result = requestHTTP != null ? Future.value(true) : Future.value(false);
+
+                  print('Tentativa de Remover item ${item.toString()} = $result');
+                  return result;
+                },
+                onAdd: <ItemGroup>() async {
+                  ModelExample result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TryGetValue(),
+                    ),
+                  );
+
+                  if (result == null) {
+                    print('No items were selected');
+                  } else {
+                    return Future.value(buildItemGroup(result));
+                  }
+                  return null;
+                },
               ),
-              labelAdd: Text('Add new category', style: TextStyle(color: Theme.of(context).primaryColor)),
-              height: 250,
-              //background: Colors.red,
-              items: _listItemsGroup,
-              onTap: (item) async {
-                print('Click do Item ${item.toString()}');
-
-                return item;
-              },
-              onRemove: <ModelExample>(item) async {
-                //Simulating a call to the server
-                var requestHTTP = await Future.delayed(Duration(seconds: 3));
-
-                Future<bool> result = requestHTTP != null ? Future.value(true) : Future.value(false);
-
-                print('Tentativa de Remover item ${item.toString()} = $result');
-                return result;
-              },
-              onAdd: <ItemGroup>() async {
-                ModelExample result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TryGetValue(),
-                  ),
-                );
-
-                if (result == null) {
-                  print('No items were selected');
-                } else {
-                  return Future.value(buildItemGroup(result));
-                }
-                return null;
-              },
             ),
           ),
         ],
