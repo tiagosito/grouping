@@ -65,7 +65,7 @@ class _GroupState extends State<Group> {
                 },
                 onRemove: <ModelExample>(item) async {
                   //Simulating a call to the server
-                  var requestHTTP = await Future.delayed(Duration(seconds: 3));
+                  var requestHTTP = await Future.delayed(Duration(seconds: 1));
 
                   Future<bool> result = requestHTTP != null ? Future.value(true) : Future.value(false);
 
