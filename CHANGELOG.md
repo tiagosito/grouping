@@ -1,3 +1,7 @@
-## [0.0.1] - Initial release.
+# [0.0.2]
 
-* Initial release.
+The label will be null by default
+
+## [0.0.1] - Initial release
+
+Initial release.

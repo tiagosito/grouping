@@ -1,6 +1,6 @@
 name: grouping
 description: A component for you to group similar content, being able to add new or remove existing ones.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/tiagosito/easy_search
 
 environment:
