@@ -15,11 +15,14 @@ class Grouping<T> extends StatefulWidget {
     @required this.onRemove,
     @required this.items,
   })  : this.height = height != null ? height : 150,
-        this.label = label != null ? label : const Text('CATEGORY'),
-        this.background = background != null ? background : const Color(0xFFF5F5F5),
+        this.label = label != null ? label : null,
+        this.background =
+            background != null ? background : const Color(0xFFF5F5F5),
         this.labelAdd = labelAdd != null ? labelAdd : const Text('CATEGORY'),
         assert(onAdd != null, 'onAdd Function cannot be null'),
-        this.iconAdd = iconAdd != null ? iconAdd : const Icon(Icons.add, size: 12, color: Colors.red),
+        this.iconAdd = iconAdd != null
+            ? iconAdd
+            : const Icon(Icons.add, size: 12, color: Colors.red),
         assert(onRemove != null, 'onRemove Function cannot be null'),
         super(key: key);
 
@@ -124,7 +127,7 @@ class Grouping<T> extends StatefulWidget {
   ///
   ///Value type: Text
   ///
-  ///Default value: const Text('CATEGORY')
+  ///Default value: null
   ///
   final Text labelAdd;
 
@@ -210,14 +213,16 @@ class _GroupingState<T> extends State<Grouping<T>> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: [
-                Expanded(child: widget.label),
-              ],
-            ),
-            SizedBox(
-              height: 4.0,
-            ),
+            if (widget.label != null)
+              Row(
+                children: [
+                  Expanded(child: widget.label),
+                ],
+              ),
+            if (widget.label != null)
+              SizedBox(
+                height: 4.0,
+              ),
             ValueListenableBuilder(
               valueListenable: widget.items,
               builder: (context, _, __) {
@@ -234,7 +239,8 @@ class _GroupingState<T> extends State<Grouping<T>> {
                         child: InkWell(
                           onTap: () async {
                             if (item.getIsRemoving()) {
-                              debugPrint('${item.item.toString()} is being removed');
+                              debugPrint(
+                                  '${item.item.toString()} is being removed');
                               return;
                             }
                             debugPrint(item.item.toString());
@@ -242,7 +248,8 @@ class _GroupingState<T> extends State<Grouping<T>> {
                           },
                           child: Container(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                               child: Stack(
                                 alignment: Alignment.centerLeft,
                                 children: [
@@ -250,13 +257,16 @@ class _GroupingState<T> extends State<Grouping<T>> {
                                     Container(
                                       child: Center(
                                         child: CircularProgressIndicator(
-                                          valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                                          valueColor: AlwaysStoppedAnimation<
+                                                  Color>(
+                                              Theme.of(context).primaryColor),
                                         ),
                                       ),
                                     ),
                                   if (item.icon != null)
                                     ConstrainedBox(
-                                      constraints: BoxConstraints(minWidth: 35, maxWidth: 35),
+                                      constraints: BoxConstraints(
+                                          minWidth: 35, maxWidth: 35),
                                       child: item.icon,
                                     ),
                                   if (item.showRemoveButton)
@@ -265,10 +275,13 @@ class _GroupingState<T> extends State<Grouping<T>> {
                                       right: 0,
                                       child: Material(
                                         color: Colors.transparent,
-                                        borderRadius: BorderRadius.circular(35.0),
+                                        borderRadius:
+                                            BorderRadius.circular(35.0),
                                         child: InkWell(
-                                          highlightColor: item.removeHighlightColor,
-                                          borderRadius: BorderRadius.circular(35.0),
+                                          highlightColor:
+                                              item.removeHighlightColor,
+                                          borderRadius:
+                                              BorderRadius.circular(35.0),
                                           onTap: () async {
                                             if (item.getIsRemoving()) {
                                               return;
@@ -277,7 +290,8 @@ class _GroupingState<T> extends State<Grouping<T>> {
                                             try {
                                               item.setIsRemoving(item);
                                               widget.items.updateList();
-                                              var result = await widget.onRemove(item.item);
+                                              var result = await widget
+                                                  .onRemove(item.item);
                                               if (result == null) {
                                                 return;
                                               } else {
@@ -296,7 +310,8 @@ class _GroupingState<T> extends State<Grouping<T>> {
                                             ),
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(35.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(35.0),
                                               ),
                                               child: Center(child: item.remove),
                                             ),
@@ -305,18 +320,24 @@ class _GroupingState<T> extends State<Grouping<T>> {
                                       ),
                                     ),
                                   Padding(
-                                    padding:
-                                        EdgeInsets.only(left: item.icon == null ? 0 : 50, right: item.remove == null ? 0 : 40),
+                                    padding: EdgeInsets.only(
+                                        left: item.icon == null ? 0 : 50,
+                                        right: item.remove == null ? 0 : 40),
                                     child: Column(
                                       children: [
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Expanded(
                                               child: Padding(
                                                 padding: EdgeInsets.symmetric(
-                                                    vertical: (item.showRemoveButton &&
-                                                            (item.subtitle == null || item.subtitle == null))
+                                                    vertical: (item
+                                                                .showRemoveButton &&
+                                                            (item.subtitle ==
+                                                                    null ||
+                                                                item.subtitle ==
+                                                                    null))
                                                         ? 9.0
                                                         : 0.0),
                                                 child: item.title,
@@ -324,9 +345,12 @@ class _GroupingState<T> extends State<Grouping<T>> {
                                             ),
                                             if (item.titleLeading != null)
                                               Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8.0),
                                                 child: ConstrainedBox(
-                                                  constraints: BoxConstraints(maxWidth: 120),
+                                                  constraints: BoxConstraints(
+                                                      maxWidth: 120),
                                                   child: item.titleLeading,
                                                 ),
                                               ),
@@ -337,7 +361,8 @@ class _GroupingState<T> extends State<Grouping<T>> {
                                             height: 4,
                                           ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             if (item.subtitle != null)
                                               Expanded(
@@ -347,18 +372,31 @@ class _GroupingState<T> extends State<Grouping<T>> {
                                               item.subtitle == null
                                                   ? Expanded(
                                                       child: Padding(
-                                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal:
+                                                                    8.0),
                                                         child: ConstrainedBox(
-                                                          constraints: BoxConstraints(maxWidth: 120),
-                                                          child: item.subtitleLeading,
+                                                          constraints:
+                                                              BoxConstraints(
+                                                                  maxWidth:
+                                                                      120),
+                                                          child: item
+                                                              .subtitleLeading,
                                                         ),
                                                       ),
                                                     )
                                                   : Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 8.0),
                                                       child: ConstrainedBox(
-                                                        constraints: BoxConstraints(maxWidth: 120),
-                                                        child: item.subtitleLeading,
+                                                        constraints:
+                                                            BoxConstraints(
+                                                                maxWidth: 120),
+                                                        child: item
+                                                            .subtitleLeading,
                                                       ),
                                                     ),
                                           ],

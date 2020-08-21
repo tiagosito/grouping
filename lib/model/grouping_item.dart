@@ -102,7 +102,9 @@ class GroupingItem<T> {
   }) {
     this.item = item;
     this.icon = icon;
-    this.remove = remove != null ? remove : const Icon(Icons.delete, size: 12, color: Colors.red);
+    this.remove = remove != null
+        ? remove
+        : const Icon(Icons.delete, size: 12, color: Colors.red);
     this.removeHighlightColor = removeHighlightColor;
     this.title = title;
     this.titleLeading = titleLeading;

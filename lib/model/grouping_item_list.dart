@@ -21,7 +21,8 @@ class GroupItemList<T> extends ValueNotifier {
   ///
   /// Default value: [],
   ///
-  ValueNotifier<List<GroupingItem>> listItems = ValueNotifier<List<GroupingItem>>([]);
+  ValueNotifier<List<GroupingItem>> listItems =
+      ValueNotifier<List<GroupingItem>>([]);
 
   ///Metod name [getListItems] :
   ///
@@ -45,7 +46,8 @@ class GroupItemList<T> extends ValueNotifier {
       List<GroupingItem> list = [item];
       this.listItems = ValueNotifier<List<GroupingItem>>(list);
     } else {
-      var itemsTemp = this.listItems.value.where((element) => element == item).toList();
+      var itemsTemp =
+          this.listItems.value.where((element) => element == item).toList();
       if (itemsTemp != null && itemsTemp.length > 0) {
         this.listItems.value.remove(item);
       }
